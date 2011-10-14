@@ -39,6 +39,11 @@ nav ul li {
 	font-weight:bold;
 }
 
+nav ul li a {
+  padding: 0 5px;
+  font-weight: bold;
+}
+
 section {
 	margin: 10px auto 0 auto;
 	font-size: 120%;
