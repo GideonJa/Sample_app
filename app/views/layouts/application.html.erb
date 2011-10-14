@@ -1,42 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title> <%=title%> </title>
-  <!--[if lt IE 9]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->    
-    <%= stylesheet_link_tag 'blueprint/screen', :media => 'screen' %>
-    <%= stylesheet_link_tag 'blueprint/print',  :media => 'print' %>
-    <!--[if lt IE 8]><%= stylesheet_link_tag 'blueprint/ie' %><![endif]-->
-    <%= stylesheet_link_tag 'custom', :media => 'screen' %>
+	<title> <%=title%> </title>
+	 <%= csrf_meta_tag %>
+   <%= render 'layouts/styles' %>
 </head>
 <body>
 <div class="container">
-	<header>
-		<%=link_to logo, "#"%>
-		<nav class="round">
-			<ul>
-				<li><%= link_to "Home", "#"%></li>
-				<li><%= link_to "Help", "#"%></li>
-				<li><%= link_to "Sign in", "#"%></li>
-			</ul>
-		</nav>
-	</header>
+	<%= render 'layouts/header' %>
 	
 	<section class="round">
 	<%= yield %>
     </section>
+    <%= render 'layouts/footer'%>
 
-<footer class="round">
-	<nav class="round">
-		<ul>
-			<li><%= link_to "About", "about_path"%></li>
-			<li><%= link_to "Contact", "#"%></li>
-			<li><a href="http://news.railstutorial.org/">News</a></li>
-		   <li><a href="http://www.railstutorial.org/">Rails Tutorial</a></li>
-		</ul>
-	</nav>
-</footer>
 </div>
 </body>
 </html>
