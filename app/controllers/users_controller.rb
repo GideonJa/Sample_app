@@ -4,8 +4,8 @@ class UsersController < ApplicationController
   end
   
   def show
-     @title = "Show User"
      @user = User.find_by_id(params[:id])
+     @title = @user.name
   end
 
 end

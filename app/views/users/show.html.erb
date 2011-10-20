@@ -1,1 +1,10 @@
-<%= @user.name%><%= @user.email%>
+<h1 class="mainProfile"> 
+<%= gravatar_for @user, :size => 60 %>
+<%= @user.name%> 
+</h1>
+<div class="sidebar round">
+	<table>
+		<tr><th>Name: </th><td> <%= @user.name%></td></tr>
+		<tr><th>URL:</th><td id="url"> <%= link_to user_path%> </td></tr>
+	</table>
+</div>

@@ -45,6 +45,9 @@ nav ul li a {
 }
 
 section {
+/*	position:relative;*/
+/*	width: 90%;*/
+	height: 120px;
 	margin: 10px auto 0 auto;
 	font-size: 120%;
 	padding: 20px;
@@ -52,7 +55,10 @@ section {
 }
 
 section h1 {
-  font-size: 200%;
+	float:left;
+	width:60%;
+
+  	font-size: 200%;
 }
 /* Links */
 a {
@@ -99,3 +105,16 @@ footer nav {
   -webkit-border-radius: 10px;
   border-radius:         10px;
 }
+
+/* User show page */
+div.sidebar {
+	display: block;
+
+/*	position:relative;*/
+	width: 30%;
+	padding: 10px;
+	float: right;
+	background: #ffc;
+}
+.sidebar table{margin-bottom:0px;}
+td#url {background:#ffc;} 
