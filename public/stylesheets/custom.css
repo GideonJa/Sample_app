@@ -47,7 +47,7 @@ nav ul li a {
 section {
 /*	position:relative;*/
 /*	width: 90%;*/
-	height: 120px;
+	overflow:hidden;
 	margin: 10px auto 0 auto;
 	font-size: 120%;
 	padding: 20px;
@@ -55,9 +55,7 @@ section {
 }
 
 section h1 {
-	float:left;
 	width:60%;
-
   	font-size: 200%;
 }
 /* Links */
@@ -107,10 +105,11 @@ footer nav {
 }
 
 /* User show page */
+h1.mainProfile {
+	float:left;
+}
 div.sidebar {
 	display: block;
-
-/*	position:relative;*/
 	width: 30%;
 	padding: 10px;
 	float: right;
@@ -118,3 +117,51 @@ div.sidebar {
 }
 .sidebar table{margin-bottom:0px;}
 td#url {background:#ffc;} 
+
+div.field, div.actions {
+  margin-bottom: 10px;
+}
+
+
+
+
+.field_with_errors {
+  margin-top: 10px;
+  padding: 1px;
+  background-color: red;
+  display: table-cell;
+}
+
+.field_with_errors label {
+  color: #fff;
+}
+
+#error_explanation {
+  width: 400px;
+  border: 1px solid red;
+  padding: 3px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+}
+
+#error_explanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  background-color: #c00;
+  color: #fff;
+}
+
+#error_explanation p {
+  color: #333;
+  margin-bottom: 0;
+  padding: 5px;
+}
+
+#error_explanation ul li {
+  font-size: 12px;
+  list-style: square;
+}

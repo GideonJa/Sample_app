@@ -1,7 +1,20 @@
 <h1>Sign Up Page</h1>
-<p>
-  Get help on Ruby on Rails Tutorial at the
-  <a href="http://railstutorial.org/help">Rails Tutorial help page</a>.
-  To get help on this sample app, see the
-  <a href="http://railstutorial.org/book">Rails Tutorial book</a>.
-</p>
+<%= form_for (@user) do |f|%>
+ <%= render 'shared/error_messages' %>
+<div class="field">
+	<div class="field">
+	<%=f.label (:name)%></br>
+	<%= f.text_field(:name) %></div>
+	<div class="field">
+	<%=f.label (:email)%></br>
+	<%= f.text_field(:email) %></div>	  
+	<div class="field">
+	<%=f.label(:password)%></br>
+	<%=f.password_field(:password)%></div>
+	<div class="field">
+	<%= f.label(:password_confirmation, "confirmation") %></br>
+	<%=f.password_field(:password_confirmation)%></div>
+	<div class="actions">
+	<%= submit_tag("Sign Up") %>
+	</div>
+<%end%>
