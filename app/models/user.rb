@@ -33,6 +33,11 @@ class User < ActiveRecord::Base
     else return nil
   end
 end
+
+  def self.authenticate_with_salt(token_id, token_salt)
+    user = User.find_by_id(token_id)
+    (user && user.salt == token_salt ) ? user : nil
+  end
    
    private
   def encrypt_password

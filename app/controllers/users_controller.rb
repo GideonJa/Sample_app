@@ -16,6 +16,7 @@ class UsersController < ApplicationController
      if @user.save
         @title = @user.name
         flash[:success] = "Welcome to the Sample App"
+        sign_in(@user)
         # redirect_to(:action => :show, :id=> @user.id) 
          redirect_to @user
       else
