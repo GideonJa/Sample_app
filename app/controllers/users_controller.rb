@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_filter :validate_login,  :only => [:edit, :update]
+  
   def new
     # raise(params[:user].inspect)
      @title = "Sign up"
@@ -6,8 +8,27 @@ class UsersController < ApplicationController
   end
   
   def show
+     redirect_to root_path if !signed_in? 
      @user = User.find_by_id(params[:id])
      @title = @user.name
+  end
+  def edit
+    @title = "User Update"
+    @user = User.find_by_id(params[:id])
+  end
+  
+  def update
+    @user = User.find_by_id(params[:id])
+    if @user.update_attributes(params[:user])
+      then  
+          @title = @user.name
+          flash[:success] = "User updated successfully"
+           redirect_to @user
+      else  
+         @title = "User Update"
+          render 'edit'
+    end
+              
   end
   
   def create
