@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_filter :validate_login,  :only => [:edit, :update]
+  before_filter :validate_login_match_user,  :only => [:edit, :update]
   
   def new
     # raise(params[:user].inspect)
@@ -12,6 +13,7 @@ class UsersController < ApplicationController
      @user = User.find_by_id(params[:id])
      @title = @user.name
   end
+  
   def edit
     @title = "User Update"
     @user = User.find_by_id(params[:id])
