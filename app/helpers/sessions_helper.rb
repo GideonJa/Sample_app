@@ -43,8 +43,8 @@ module SessionsHelper
     then 
       session[:original_req] = nil
     else
-      flash[:notice] ="Please login"
-      redirect_to (signin_path)
+      flash[:notice] ="Please sign in to access this page."
+      redirect_to signin_path
     end
   end
   
@@ -56,8 +56,8 @@ module SessionsHelper
      end
   end
 def validate_login_match_user
-  puts "===#{current_user.id}=============#{params[:id]}==================="
-  if current_user.id.to_s != params[:id]
+  user = User.find(params[:id])
+  if current_user != user
     flash[:notice] ="You can only update your own profile"
     redirect_to (root_path)
   end

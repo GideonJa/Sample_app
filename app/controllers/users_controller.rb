@@ -1,22 +1,28 @@
 class UsersController < ApplicationController
-  before_filter :validate_login,  :only => [:edit, :update]
+  before_filter :validate_login,  :only => [:index, :edit, :update]
   before_filter :validate_login_match_user,  :only => [:edit, :update]
-  
+   
   def new
     # raise(params[:user].inspect)
      @title = "Sign up"
      @user = User.new
   end
   
+  def index 
+    @title = "All Users"
+    @users = User.order("id ASC")
+      # @users = User.all
+  end
+  
   def show
-     redirect_to root_path if !signed_in? 
+     # redirect_to root_path if !signed_in? 
      @user = User.find_by_id(params[:id])
      @title = @user.name
   end
   
   def edit
-    @title = "User Update"
     @user = User.find_by_id(params[:id])
+    @title = "Update #{@user.name}"
   end
   
   def update

@@ -11,6 +11,7 @@ gem "gravatar_image_tag", "~> 1.0.0"
 
 group :development do
   gem 'rspec-rails', '2.6.1'
+  gem "faker", "~> 1.0.1"
 end
 
 group :test do
