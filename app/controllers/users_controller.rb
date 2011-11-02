@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
-  before_filter :validate_login,  :only => [:index, :edit, :update]
+  before_filter :validate_login,  :only => [:index, :edit, :update, :destroy]
+  before_filter :validate_logged_out, :only => [:new, :create]
   before_filter :validate_login_match_user,  :only => [:edit, :update]
+  before_filter :validate_admin,  :only => :destroy
    
   def new
     # raise(params[:user].inspect)
@@ -10,7 +12,8 @@ class UsersController < ApplicationController
   
   def index 
     @title = "All Users"
-    @users = User.order("id ASC")
+    @users = User.paginate(:page => params[:page], :per_page => 20)
+    # @users = User.order("id ASC")
       # @users = User.all
   end
   
@@ -53,4 +56,15 @@ class UsersController < ApplicationController
         render 'new'
    end # if
   end
+  
+  def destroy
+    @user = User.find_by_id(params[:id])
+    if @user.destroy
+       flash[:success] = "User #{@user.name} deleted successfully"
+     else 
+       flash[:error] = "User was not deleted"
+    end
+    redirect_to users_path
+  end
+  
 end

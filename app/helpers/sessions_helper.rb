@@ -48,6 +48,12 @@ module SessionsHelper
     end
   end
   
+  def validate_logged_out
+    if signed_in?
+       flash[:notice] ="You are already signed up "
+      redirect_to root_path
+      end
+  end
   def redirect_to_original_req
      if session[:original_req]
        redirect_to session[:original_req]
@@ -55,6 +61,7 @@ module SessionsHelper
        redirect_to current_user
      end
   end
+
 def validate_login_match_user
   user = User.find(params[:id])
   if current_user != user
@@ -62,4 +69,17 @@ def validate_login_match_user
     redirect_to (root_path)
   end
 end
+
+def validate_admin
+  if !current_user.admin
+    flash[:error] = "you are not authorised to delete"
+    redirect_to (root_path) 
+  else
+    if current_user == User.find(params[:id])
+      flash[:error] = "you can not delete yourself"
+      redirect_to (root_path)
+  end
+end
+end
+
 end

@@ -109,4 +109,23 @@ describe User do
        end  
       end  # authenticate method
     end  # password encryption
+
+  describe "admin attribute" do
+    before(:each) do
+          @user = User.create!(@attr)
+        end
+        
+    it "should have an admin attribute" do
+          @user.should respond_to(:admin)
+    end
+    
+    it "should not be admin by default" do
+          @user.should_not be_admin
+    end
+    it "respond to toggle" do
+        @user.toggle(:admin)
+        @user.should be_admin
+    end
+  end # "admin attribute"
+  
 end #user

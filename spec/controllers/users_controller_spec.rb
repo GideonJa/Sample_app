@@ -4,16 +4,32 @@ describe UsersController do
   render_views
 
   describe "GET 'new'" do
-    it "should be successful" do
-      get :new
-      response.should be_success
+    describe "for signed out users" do
+      it "should be successful" do
+        get :new
+        response.should be_success
+      end
+    
+      it "should have the right title" do
+        get :new
+        response.should have_selector("title", :content =>  "Sign up")
+      end
+  end # "for signed out users"
+  
+  describe "for users already signed in" do
+    before(:each) do
+        @user = Factory(:user)
+        test_sign_in(@user)
     end
     
-    it "should hav the right title" do
-      get :new
-      response.should have_selector("title", :content =>  "Sign up")
-    end
+     it "should NOT be successful" do
+        get :new
+        response.should_not be_success
+        response.should redirect_to(root_path)
+      end
+    end # signed in users
   end # describe "GET 'new'" do
+
   
   describe "GET 'show'" do
     before(:each) do
@@ -30,23 +46,36 @@ describe UsersController do
        assigns(:user).should == @user
      end
      
-     it "should hav the right title" do
+     it "should have the right title" do
         get :show, :id => @user.id
         response.should have_selector("title", :content =>  @user.name)
     end
     
-    it "should hav the right h1" do
+    it "should have the right h1" do
         get :show, :id => @user.id
         response.should have_selector("h1", :content =>  @user.name)
     end
     
-    it "should hav the right profile image" do
+    it "should have the right profile image" do
         get :show, :id => @user
         response.should have_selector("h1>img", :class =>  "gravatar")
     end
   end # describe "GET 'show'" do
 
   describe "POST 'create'" do
+    describe "for users already signed in" do
+      before(:each) do
+          @user = Factory(:user)
+          test_sign_in(@user)
+      end
+
+       it "should not create a user" do
+          lambda do
+            post :create, :user => @attr
+            end.should_not change(User, :count)
+        end 
+       end # signed in users
+      
     describe "failure" do
        before(:each) do
             @attr = {:name => "Gideon Jadlovker", 
@@ -59,12 +88,12 @@ describe UsersController do
          lambda do
            post :create, :user => @attr
            end.should_not change(User, :count)
-       end # "should not create a user"
+       end 
        
-       it "should hav the right title" do
+       it "should have the right title" do
            post :create, :user => @attr
            response.should have_selector("title", :content =>  "Sign up")
-       end #"should hav the right title"
+       end #"should have the right title"
        
        it "should render the 'new' page" do
             post :create, :user => @attr
@@ -119,7 +148,7 @@ describe UsersController do
         assigns(:user).should == @user
       end
 
-      it "should hav the right title" do
+      it "should have the right title" do
          get :edit, :id => @user.id
          response.should have_selector("title", :content => "Update")
      end
@@ -148,7 +177,7 @@ describe UsersController do
         it "should have the right title" do
             put :update, :id => @user, :user => @attr
             response.should have_selector("title", :content =>  "User Update")
-        end #"should hav the right title"
+        end #"should have the right title"
 
         it "should render the 'edit' page" do
              put :update, :id => @user, :user => @attr
@@ -218,7 +247,6 @@ describe UsersController do
   end #  describe "for signed-in users" do
   end # describe "Authentication of edit/update users" do
   
- #========================================================================
   describe "GET index" do
     describe "for non-signed-in users" do
         it "should deny access to 'index'" do
@@ -230,9 +258,14 @@ describe UsersController do
     describe "for signed-in users" do
         before(:each) do
               @user = test_sign_in(Factory(:user))
-              second = Factory(:user, :name => "Bob", :email => "another@example.com")
-              third  = Factory(:user, :name => "Ben", :email => "another@example.net")
+              second = Factory(:user, :name => "Bob", 
+                                      :email => "another@example.com")
+              third  = Factory(:user, :name => "Ben", 
+                                      :email => "another@example.net")
               @users = [@user, second, third]
+              30.times do
+                 @users << Factory(:user, :email => Factory.next(:email))
+              end
             end
 
             it "should be successful" do
@@ -247,10 +280,79 @@ describe UsersController do
 
             it "should have an element for each user" do
               get :index
-              @users.each do |user|
+              @users[0..2].each do |user|
                 response.should have_selector("td", :content => user.name)
               end
             end
+            
+            it "should paginate users" do
+              get :index
+              response.should have_selector("div.pagination")
+              response.should have_selector("span.disabled", 
+                                                 :content => "Previous")
+              response.should have_selector("a", :href => "/users?page=2",
+                                                 :content => "2")
+              response.should have_selector("a", :href => "/users?page=2",
+                                                 :content => "Next")
+            end
     end #  describe "for signed-in users" do
-  end
+  end #  describe "GET index" do
+   #========================================================================
+   describe "DELETE 'destroy'" do
+       before(:each) do
+         @user = Factory(:user)
+       end
+
+       describe "as a non-signed-in user" do
+         it "should deny access" do
+           delete :destroy, :id => @user
+           response.should redirect_to(signin_path)
+         end
+       end # as a non-signed-in user
+       
+       describe "as a non-admin user" do
+         before(:each) do
+            test_sign_in(@user)
+         end
+         
+         it "should deny access" do
+            delete :destroy, :id => @user
+            response.should redirect_to(root_path)
+        end
+        end # "as a non-admin user"
+         
+      describe "as an admin user" do
+         before(:each) do
+            @admin = Factory(:user, 
+                            :email => "admin123@example.com", 
+                            :admin => true)
+            test_sign_in(@admin)
+         end
+         
+         it "should delete a user" do
+            lambda do
+              delete :destroy, :id => @user
+              end.should change(User, :count).by(-1)
+          end 
+
+          it "should no be able to delete itself" do
+              lambda do
+                delete :destroy, :id => @admin
+                end.should_not change(User, :count)
+            end 
+
+          it "should have the right flash message" do
+              delete :destroy, :id => @user
+              flash[:success].should =~ /deleted/i
+          end #"should have the right title"
+
+          it "should redirect the 'user' page" do
+               delete :destroy, :id => @user
+               response.should redirect_to(users_path)
+           end
+                       
+          end # "as an admin user" 
+        
+                
+       end # describe "Destroy"
 end

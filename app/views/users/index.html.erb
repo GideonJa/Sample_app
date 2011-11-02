@@ -1,17 +1,22 @@
 <h1 class="User List"> </h1>
 
-<div>
-	<table>
+<%= will_paginate %>
+<table class="users">
+	<tr>
+		<th></th><th>Name</th><th>Email</th><th>URL:</th>
+	</tr>
+	<%@users.each do |user|%>
 		<tr>
-			<th></th><th>Name</th><th>Email</th><th>URL:</th>
+			<td><%= gravatar_for user, :size => 30 %> </td>
+			<td> <%= user.name%></td>
+			<td> <%= user.email%></td>
+			<td> <%= link_to user_path(user), user %></td>
+			 <% if (current_user.admin?)%>
+			<td> <%= link_to "Delete", user, :method => :delete, 
+				:confirm => "You sure you want to delete #{user.name}?",
+							:title => "delete #{user.name}"%></td>
+			<%end%>
 		</tr>
-		<%@users.each do |user|%>
-			<tr>
-				<td><%= gravatar_for user, :size => 30 %> </td>
-				<td> <%= user.name%></td>
-				<td> <%= user.email%></td>
-				<td> <%= link_to user_path(user), user %></td>
-			</tr>
-		<%end%>
-	</table>
-</div>
+	<%end%>
+</table>
+<%= will_paginate %>
