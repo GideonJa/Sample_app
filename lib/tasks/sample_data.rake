@@ -15,6 +15,13 @@ namespace :db do
                    :email => email,
                    :password => password,
                    :password_confirmation => password)
-    end
-  end
-end
+    end # 99.times
+    @user = User.all(:limit => 5)
+    @user.each do |user|
+      50.times do |mp|
+         micro = Faker::Lorem.sentences(2).join(" ")
+         user.microposts.create!(:content => micro)
+       end # 50.times
+     end #@user.each
+  end # :populate => :environment do
+end # namespace

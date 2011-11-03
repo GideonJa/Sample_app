@@ -121,9 +121,28 @@ td#url {background:#ffc;}
 div.field, div.actions {
   margin-bottom: 10px;
 }
+/* User show Micropost */
+div.microposts {
+	display: block;
+	width: 80%;
+	padding: 30px;
+	float: left;
+	
 
+/*	background: #ffc;*/
+}
+td.microposts1{
+/*	background: #ffc;*/
+	border-top: 2px solid #ddd;
+	padding-bottom: 0px;
+}
 
-
+td.microposts2{
+	background: #fff;
+	font-size: 85%;
+	color: #666;
+	padding-bottom: 1em;
+}
 
 .field_with_errors {
   margin-top: 10px;

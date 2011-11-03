@@ -128,4 +128,30 @@ describe User do
     end
   end # "admin attribute"
   
+  describe "micropost associations" do
+
+      before(:each) do
+        @user = User.create(@attr)
+        @mp1 = Factory(:micropost, :user => @user, :created_at => 1.day.ago)
+        @mp2 = Factory(:micropost, :user => @user, :created_at => 1.hour.ago)
+      end
+
+      it "should have a microposts attribute" do
+        @user.should respond_to(:microposts)
+      end
+      
+      it "should have micros in the right order" do
+      @user.microposts.should == [@mp2, @mp1]
+    end 
+      
+      it "should destroy the corresponding micros" do
+        @user.destroy
+        [@mp2, @mp1].each do |mp|
+        del_mp = Micropost.find_by_id(mp.id)
+        del_mp.should be_nil
+      end
+      
+      end
+  end # "micropost associations" do
+  
 end #user

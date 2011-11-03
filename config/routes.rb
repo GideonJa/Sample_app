@@ -10,7 +10,8 @@ SampleApp::Application.routes.draw do
   # match '/index',   :to => 'users#index'
   
   resources :users
-  resources :sessions, :only => [:new, :create, :destroy]
+  resources :sessions,    :only => [:new, :create, :destroy]
+  resources :microposts,  :only => [:new, :create, :destroy]
  
 
   # The priority is based upon order of creation:

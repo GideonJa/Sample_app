@@ -20,6 +20,8 @@ class UsersController < ApplicationController
   def show
      # redirect_to root_path if !signed_in? 
      @user = User.find_by_id(params[:id])
+     @microposts = @user.microposts.paginate(:page => params[:page], 
+                                              :per_page => 20)
      @title = @user.name
   end
   
