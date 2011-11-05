@@ -32,7 +32,7 @@ describe MicropostsController do
            lambda do
              post :create, :micropost => @attr
              end.should_not change(Micropost, :count)
-        end      
+       end      
       end # Failure
       
       describe "success" do
@@ -46,7 +46,7 @@ describe MicropostsController do
        it "should render the 'pages/home' page" do
           post :create, :micropost=>@attr
           #response.should render_template('pages/home')
-          response.should redirect_to(user_path(@user))
+          response.should redirect_to(root_path)
        end
        
        it "should create a user" do

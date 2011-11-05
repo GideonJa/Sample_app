@@ -23,6 +23,7 @@ describe UsersController do
     describe "for users already signed in" do
       before(:each) do
           @user = Factory(:user)
+          test_sign_in(@user)
       end
       
        it "should be successful" do

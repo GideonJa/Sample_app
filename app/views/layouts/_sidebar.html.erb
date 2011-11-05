@@ -1,0 +1,9 @@
+<table>
+	<tr>
+		<%if gv%>
+			<th> <%= gravatar_for user, :size => 40%></th><td></td></tr>
+		<%end%>
+		<th>Name:</th><td><%= user.name%></td></tr>
+	<tr><th>URL:</th><td id="url"> <%= link_to user_path(current_user)%> </td></tr>
+	<tr><th>Posts:</th><td> <%= user.microposts.count %> </td></tr>
+</table>

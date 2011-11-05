@@ -3,11 +3,7 @@
 <%= @user.name%> 
 </h1>
 <div class="sidebar round">
-	<table>
-		<tr><th>Name: </th><td> <%= @user.name%></td></tr>
-		<tr><th>URL:</th><td id="url"> <%= link_to user_path%> </td></tr>
-		<tr><th>Posts:</th><td> <%= @user.microposts.count %> </td></tr>
-	</table>
+	<%= render 'layouts/sidebar', :user=> current_user, :gv => false%>
 </div>
 <% unless @user.microposts.empty? %>
 	<div class="microposts">

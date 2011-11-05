@@ -1,9 +1,12 @@
 class PagesController < ApplicationController
   def home
     @title = "Home"
-    # if signed_in?
-    #       redirect_to current_user
-    # end
+   
+    if signed_in?
+       @micropost = current_user.microposts.build
+       @microposts = current_user.microposts.paginate(:page => params[:page], 
+                                                      :per_page => 20)
+    end
   end
 
   def contact

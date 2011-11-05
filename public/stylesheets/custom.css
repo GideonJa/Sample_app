@@ -118,6 +118,13 @@ div.sidebar {
 .sidebar table{margin-bottom:0px;}
 td#url {background:#ffc;} 
 
+div.newpost {
+	display: block;
+	width: 60%;
+	padding: 10px;
+	float: left;
+
+}
 div.field, div.actions {
   margin-bottom: 10px;
 }
@@ -135,6 +142,8 @@ td.microposts1{
 /*	background: #ffc;*/
 	border-top: 2px solid #ddd;
 	padding-bottom: 0px;
+	max-width: 50px;
+	overflow:hidden;
 }
 
 td.microposts2{

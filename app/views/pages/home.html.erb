@@ -1,8 +1,28 @@
-<h1>Sample App</h1>
-<p>
-  This is the home page for the
-  <a href="http://railstutorial.org/">Ruby on Rails Tutorial</a>
-  sample application.
-</p>
-  <%= link_to "Sign up now!", signup_path, :class => "signup_button round" %>
- 
+<%if signed_in?%>
+	<div class="newpost">
+	
+		<h1>What's Up?</h1>
+		<%= form_for (@micropost) do |f|%>
+		 	<%= render 'shared/error_messages', :object => f.object %>
+			<div id="newpost">
+				<%= f.text_area(:content) %></div>
+			<div class="actions">
+			<%= submit_tag("Submit") %>
+			</div>
+		<%end%>
+	</div>
+	<div class="sidebar round">
+		<%= render 'layouts/sidebar', :user => current_user, :gv => true %>
+	</div>
+	<% unless current_user.microposts.empty? %>
+		<div class="microposts">
+			<table summary="User microposts">
+				<%= render @microposts %>
+			</table>
+			<%= will_paginate @microposts %>
+		</div>
+	<%end%>
+	
+	<%else%>
+	<%= render 'signupnow'%>
+<%end%>
