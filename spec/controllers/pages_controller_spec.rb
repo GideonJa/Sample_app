@@ -20,7 +20,7 @@ describe PagesController do
 
     describe "for signed OUT users" do
 
-      it "should have a sign up link" do
+       it "should have a sign up link" do
         get :home
         response.should have_selector("a", :href => signup_path,
                                          :content => "Sign up now!")
@@ -29,7 +29,7 @@ describe PagesController do
        it "should have a header" do
          get :home
          response.should have_selector("h1", :content => "Sample App")
-        end
+       end
        
     end # "for signed OUT users"
 

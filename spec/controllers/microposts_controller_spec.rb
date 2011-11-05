@@ -24,7 +24,7 @@ describe MicropostsController do
        end
       
        it "should render the 'pages/home' page" do
-          post :create, :micropost=>@attr
+          post :create, :micropost=> @attr
           response.should render_template('pages/home')
        end
        
@@ -44,7 +44,7 @@ describe MicropostsController do
        end
 
        it "should render the 'pages/home' page" do
-          post :create, :micropost=>@attr
+          post :create, :micropost => @attr
           #response.should render_template('pages/home')
           response.should redirect_to(root_path)
        end
@@ -65,11 +65,56 @@ describe MicropostsController do
 
   describe "delete destroy" do
     describe "for signed out users" do
+      before(:each) do
+          @user = Factory(:user)
+      end
        
        it "should redirect to 'signin' page" do
-         delete :destroy, :id => 1
+         delete :destroy, :id => @user
          response.should redirect_to(signin_path)
        end
+       
+       it "should not create a Post" do
+          lambda do
+            delete :destroy, :id => @user
+            end.should_not change(Micropost, :count)
+       end
     end # signed out
+
+    describe "for signed IN users" do
+       before(:each) do
+            @user = Factory(:user)
+            @mp1 = Factory(:micropost, :user => @user)
+            test_sign_in(@user)
+       end
+
+         it "should redirect to root_path" do
+           delete :destroy, :id => @mp1
+           response.should redirect_to(root_path)
+         end
+
+         it "should not destroy the post" do
+             lambda do
+               delete :destroy, :id => @mp1
+             end.should change(Micropost, :count).by(-1)
+         end
+    end # signed IN
+      
+    describe "for signed WRONG users" do
+     before(:each) do
+        @user = Factory(:user)
+        @mp1 = Factory(:micropost, :user => @user)
+        @wrong_user = Factory(:user, :email => Factory.next(:email))
+        test_sign_in(@wrong_user)
+     end
+   
+       it "should redirect to 'signin' page" do
+           lambda do
+             delete :destroy, :id => @mp1
+           end.should_not change(Micropost, :count)
+           response.should redirect_to(root_path)
+       end
+      
+    end #"for signed WRONG users"
   end # "delete destroy"
  end

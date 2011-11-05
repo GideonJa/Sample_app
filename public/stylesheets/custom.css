@@ -131,26 +131,28 @@ div.field, div.actions {
 /* User show Micropost */
 div.microposts {
 	display: block;
-	width: 80%;
-	padding: 30px;
+	width: 65%;
+	padding: 10px;
 	float: left;
 	
 
 /*	background: #ffc;*/
 }
+
+
 td.microposts1{
 /*	background: #ffc;*/
 	border-top: 2px solid #ddd;
-	padding-bottom: 0px;
-	max-width: 50px;
-	overflow:hidden;
+	vertical-align: top;
+
 }
 
-td.microposts2{
+span.timestamp{
 	background: #fff;
 	font-size: 85%;
 	color: #666;
 	padding-bottom: 1em;
+	display: block;
 }
 
 .field_with_errors {

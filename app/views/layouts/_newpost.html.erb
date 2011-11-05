@@ -1,0 +1,9 @@
+<h1>What's Up?</h1>
+<%= form_for (micropost) do |f|%>
+ 	<%= render 'shared/error_messages', :object => f.object %>
+	<div id="newpost">
+		<%= f.text_area(:content) %></div>
+	<div class="actions">
+	<%= submit_tag("Submit") %>
+	</div>
+<%end%>

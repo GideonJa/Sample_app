@@ -1,5 +1,17 @@
-	<tr><td class="microposts1"> <%= micropost.content %> </td></tr>
 	<tr>
-	<td class="microposts2">
-		Posted <%= time_ago_in_words(micropost.created_at)%> ago.</td>
-	</tr>
+	<td class="microposts1"> 
+	<%= link_to gravatar_for(micropost.user, :size => 40), micropost.user %>
+	</td>
+	<td class="microposts1"> 
+	<%= link_to micropost.user.name,  micropost.user %>
+	<%= micropost.content %> 	
+	<span class="timestamp"> 
+	Posted <%= time_ago_in_words(micropost.created_at)%> ago.</span>
+	</td>
+	<%if micropost.user == current_user%>
+		<td class="microposts1">
+		<%= link_to "x", micropost_path(micropost), :method => :delete,
+									:confirm => "You sure you want to delete?",
+									:title => "delete #{micropost.id}"%>
+		</td></tr>
+	<%end%>

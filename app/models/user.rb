@@ -40,6 +40,10 @@ end
     user = User.find_by_id(token_id)
     (user && user.salt == token_salt ) ? user : nil
   end
+  
+  def feed
+    Micropost.where("user_id = ?", self.id)  
+  end
    
    private
   def encrypt_password
