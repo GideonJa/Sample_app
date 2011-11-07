@@ -3,7 +3,8 @@
 <%= @user.name%> 
 </h1>
 <div class="sidebar round">
-	<%= render 'layouts/sidebar', :user=> current_user, :gv => false%>
+	
+	<%= render 'layouts/sidebar', :user=> @user, :gv => false%>
 </div>
 <% unless @user.microposts.empty? %>
 	<div class="microposts">

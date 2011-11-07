@@ -5,6 +5,14 @@
 	 <%= csrf_meta_tag %>
    	<%= render 'layouts/styles' %>
 	<%= javascript_include_tag :defaults %>
+	<SCRIPT LANGUAGE="JavaScript">
+	function charLeft(field,cntfield,maxlimit) {
+	if (field.value.length > maxlimit) 
+		field.value = field.value.substring(0, maxlimit);
+	else
+		cntfield.value = maxlimit - field.value.length;
+	}
+	</script>
 </head>
 <body>
 <div class="container">

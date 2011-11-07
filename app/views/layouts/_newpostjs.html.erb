@@ -1,0 +1,12 @@
+<h1>What's Up?</h1>
+<%= form_for (micropost) do |f|%>
+	<%= render 'shared/error_messages', :object => f.object %>
+	<div id="newpost">
+	<%= f.text_area(:content),
+	onKeyDown="textCounter(document.myForm.message1,document.myForm.remLen1,125)" 
+	:onKeyUp => "countCharactersLeft($('#new_micropost',$('#charsLeft'),140)"
+ 	   	 %></div>
+	<div class="actions">
+	<%= submit_tag("Submit") %>
+	</div>
+<%end%>

@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   before_filter :validate_login_match_user,  :only => [:edit, :update]
   before_filter :validate_admin,  :only => :destroy
    
+  
   def new
     # raise(params[:user].inspect)
      @title = "Sign up"
