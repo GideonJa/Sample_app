@@ -9,7 +9,10 @@ SampleApp::Application.routes.draw do
   match '/signout', :to => 'sessions#destroy'
   # match '/index',   :to => 'users#index'
   
-  resources :users
+  resources :users do
+    resources :microposts,  :only => [:index]
+    end 
+  
   resources :sessions,    :only => [:new, :create, :destroy]
   resources :microposts,  :only => [:new, :create, :destroy]
  

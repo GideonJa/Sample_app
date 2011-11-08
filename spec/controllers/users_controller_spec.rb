@@ -23,6 +23,7 @@ describe UsersController do
     describe "for users already signed in" do
       before(:each) do
           @user = Factory(:user)
+          @user2 = Factory(:user, :email => Factory.next(:email))
           test_sign_in(@user)
       end
       
@@ -57,7 +58,18 @@ describe UsersController do
          get :show, :id => @user
          response.should have_selector("td", :content =>  mp1.content)
          response.should have_selector("td", :content =>  mp1.content)
+         response.should have_selector("td", :content =>  "2")
+         response.should have_selector("a", :content =>  "x")
        end
+       
+       it "should NOT display delete tag (x) for  user2 microposts" do
+          mp1 = Factory(:micropost, :user => @user2)
+          get :show, :id => @user2
+          response.should have_selector("td", :content =>  mp1.content)
+          response.should have_selector("td", :content =>  "1")
+          response.should_not have_selector("a", :content =>  "x")
+        end
+       
     end #"for users already signed in" do
   end # describe "GET 'show'" do
 

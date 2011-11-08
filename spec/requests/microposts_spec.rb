@@ -31,6 +31,8 @@ describe "Microposts" do
           click_button
           response.should render_template('pages/home')
           response.should have_selector("td", :content => content)
+          response.should have_selector("div.sidebar")
+          response.should have_selector("th", :content => "Posts")
         end.should change(Micropost, :count).by(1)
       end
     end # success
