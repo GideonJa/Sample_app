@@ -1,9 +1,27 @@
 <table>
 	<tr>
-		<%if gv%>
-			<th> <%= gravatar_for user, :size => 40%></th><td></td></tr>
-		<%end%>
-		<th>Name:</th><td><%= user.name%></td></tr>
-	<tr><th>URL:</th><td id="url"> <%= link_to user_path(current_user)%> </td></tr>
-	<tr><th>Posts:</th><td> <%= user.microposts.count %> </td></tr>
+	<%if gv%>
+		<th> <%= gravatar_for user, :size => 40%></th><td></td></tr>
+	<%end%>
+	<th>Name:</th><td><%= user.name%></td>
+	</tr><tr>
+		<th>URL:</th><td id="url"> <%= link_to user_path(user)%></td>
+	</tr><tr>
+		<th>Posts:</th><td> <%= user.microposts.count %></td>
+	</tr>
+	<tr class="stats">
+		<td>
+		<%=link_to (following_user_path(current_user)) do %>
+		 <span id="following" class="stat">
+		<%= user.following.count%> <br />following 
+		</span>
+		<%end%></td> 
+		<td> 
+		<% a =pluralize(user.followers.count, "follower").split(" ") %>	
+		<%=link_to (followers_user_path(user)) do %>
+	 	<%= a[0]%> <br /> <%=a[1]%>
+		 </span>
+		<%end%></td> 
+	</tr>
+
 </table>

@@ -66,6 +66,23 @@ describe PagesController do
           get :home
           response.should have_selector("td", :content =>  @user.name)
        end
+
+       it "should have following" do
+          @followed = Factory(:user, :email => Factory.next(:email))
+          @user.follow!(@followed)
+          get :home
+          response.should have_selector("a", 
+                                 :href => following_user_path(@user),
+                                 :content =>  @user.following.count.to_s)
+       end
+
+       it "should have followers" do
+          get :home
+          response.should have_selector("a",
+                                :href => followers_user_path(@user),
+                                :content =>  @user.followers.count.to_s)
+          
+       end
        
     end # describe "for signed in users"
       

@@ -7,7 +7,6 @@ class MicropostsController < ApplicationController
      @user = User.find_by_id(params[:user_id])
      @microposts = @user.microposts.paginate(:page => params[:page], 
                                               :per_page => 20)
-      #raise "==========#{@microposts[0].id}"
      render 'users/show'
   end
   

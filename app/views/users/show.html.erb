@@ -2,8 +2,8 @@
 <%= gravatar_for @user, :size => 60 %>
 <%= @user.name%> 
 </h1>
+<%= render 'follow_form' if signed_in? %>
 <div class="sidebar round">
-	
 	<%= render 'layouts/sidebar', :user=> @user, :gv => false%>
 </div>
 <% unless @user.microposts.empty? %>

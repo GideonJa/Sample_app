@@ -169,6 +169,90 @@ describe User do
             @user.feed.include?(mp3).should be_false
          end
        end # Status feed
+
+       describe "relationships associations" do
+
+           before(:each) do
+             @user = Factory(:user)
+             @followed = Factory(:user, :email => Factory.next(:email))
+           end
+           
+           it "should have a relationships attribute" do
+            @user.should respond_to(:relationships)
+           end
+           
+           it "should have a following attribute" do
+            @user.should respond_to(:following)
+           end
+
+           it "should have a following? method" do
+            @user.should respond_to(:following?)
+           end
+           
+           it "should have a follow! method" do
+            @user.should respond_to(:follow!)
+           end
+
+           it "should follow another user using follow! method" do
+            @user.follow!(@followed)
+            @user.following.should include(@followed)
+           end
+           
+           it "should return true if following a @followed" do
+            @user.follow!(@followed)
+            @user.should be_following(@followed)
+           end
+           
+           it "should have an unfollow! method" do
+            @user.should respond_to(:unfollow!)
+           end
+
+           it "should not follow another after unfollow! method" do
+            @user.follow!(@followed)
+            @user.unfollow!(@followed)
+            @user.following.should_not include(@followed)
+           end
+           
+           it "should be false: following?(@followed) after unfollowed!" do
+            @user.follow!(@followed)
+            @user.unfollow!(@followed)
+            @user.should_not be_following(@followed)
+           end
+#=============================================================== 
+          describe " reveresed relationships" do
+            before(:each) do
+              @user.follow!(@followed)
+            end
+            
+            it "should have a reverse relationships attribute" do
+             @user.should respond_to(:reverse_relationships)
+            end
+
+            it "should have a followers attribute" do
+             @user.should respond_to(:followers)
+            end
+
+            it "should have a followed_by? method" do
+             @user.should respond_to(:followed_by?)
+            end
+
+            it "should include the follower" do
+             @followed.followers.should include(@user)
+            end
+
+            it "should return true if followed by @follower" do
+             @followed.should be_followed_by(@user)
+            end
+
+            it "should not have a follower after unfollow" do
+              @user.unfollow!(@followed)
+             @followed.followers.should_not include(@user)
+             @followed.should_not be_followed_by(@user)
+             end
+
+        end # describe reverese relationships
+#===============================================================           
+       end  # "relationships associations"     
   end # "micropost associations" do
     
 end #user
