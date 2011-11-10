@@ -5,6 +5,7 @@
 <%= render 'follow_form' if signed_in? %>
 <div class="sidebar round">
 	<%= render 'layouts/sidebar', :user=> @user, :gv => false%>
+	
 </div>
 <% unless @user.microposts.empty? %>
 	<div class="microposts">

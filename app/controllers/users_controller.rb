@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :validate_login,  :only => [:index, :edit, :update, :destroy]
+  before_filter :validate_login,  :except => [:show, :new, :create]
   before_filter :validate_logged_out, :only => [:new, :create]
   before_filter :validate_login_match_user,  :only => [:edit, :update]
   before_filter :validate_admin,  :only => :destroy
@@ -24,6 +24,25 @@ class UsersController < ApplicationController
      @microposts = @user.microposts.paginate(:page => params[:page], 
                                               :per_page => 20)
      @title = @user.name
+  end
+  
+  def following
+    @user = User.find_by_id(params[:id])
+    @title= "Users followed by #{@user.name}"
+    @users = @user.following.paginate(:page => params[:page], 
+                                              :per_page => 20)
+    render 'show_follow'
+                  
+    
+  end
+  
+  def followers
+    @user = User.find_by_id(params[:id])
+    @title= "Followers of #{@user.name}"
+    @users = @user.followers.paginate(:page => params[:page], 
+                                               :per_page => 20)
+     render 'show_follow'
+    
   end
   
   def edit

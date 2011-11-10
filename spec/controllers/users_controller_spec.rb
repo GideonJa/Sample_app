@@ -20,7 +20,7 @@ describe UsersController do
   end #describe "GET 'new'" do
   
   describe "GET 'show'" do
-    describe "for users already signed in" do
+    describe "for signed in users" do
       before(:each) do
           @user = Factory(:user)
           @user2 = Factory(:user, :email => Factory.next(:email))
@@ -68,6 +68,11 @@ describe UsersController do
           response.should have_selector("td", :content =>  mp1.content)
           response.should have_selector("td", :content =>  "1")
           response.should_not have_selector("a", :content =>  "x")
+        end
+
+        it "should be display other users profile" do
+          get :show, :id => @user2
+          response.should be_success
         end
        
     end #"for users already signed in" do
@@ -308,7 +313,7 @@ describe UsersController do
        end
     end #  describe "for signed-in users" do
   end #  describe "GET index" do
-   #========================================================================
+   
   describe "DELETE 'destroy'" do
     before(:each) do
         @user = Factory(:user)
@@ -363,4 +368,42 @@ describe UsersController do
        end
     end # "as an admin user" 
   end # describe "Destroy"
+  
+   #========================================================================
+  describe "following followers pages" do
+    
+    describe "when not signed in" do
+    
+      it "should protect the following action" do
+        get :following, :id => 1
+        response.should redirect_to(signin_path)
+      end
+
+      it "should protect the followers action" do
+        get :followers, :id => 1
+        response.should redirect_to(signin_path)
+      end
+    end # not signed in
+
+    describe "when signed in" do
+      before(:each) do
+        @user = test_sign_in(Factory(:user))
+        @followed_user = Factory(:user, :email =>Factory.next(:email))
+        @user.follow!(@followed_user)
+      end
+      
+      it "should display a link to followed use in following page" do
+        get :following, :id => @user
+        response.should have_selector("a",  :href => user_path(@followed_user))
+                                        
+      end
+
+      it "should display a link to follower user in followers page" do
+        get :followers, :id => @followed_user
+        response.should have_selector("a",  :href => user_path(@user))
+      end
+    end # signed in
+    
+  end # following followers pages
+  
 end

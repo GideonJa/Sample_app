@@ -6,7 +6,7 @@
 		"charLeft(document.getElementById('micropost_content'), 
 		document.getElementById('count'), 140)" %>
 		<%= label_tag :count, "Remaining:" %>
-		<%= text_field_tag :count, "140", :size => 4 %> </div>
+		<%= text_field_tag :count, "140", :size => "1", :readonly => "readonly"%> </div>
 	<div class="actions">
 	<%= submit_tag("Submit") %>
 	</div>

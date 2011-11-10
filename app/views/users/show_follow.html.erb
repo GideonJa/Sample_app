@@ -1,0 +1,20 @@
+<h1 class="mainProfile"> <%= @title%> </h1>
+
+<div class="sidebar round">
+	<%= render 'layouts/sidebar', :user=> @user, :gv => false%>
+	 <%= render 'shared/sidebar_gv'%>
+	
+</div>
+
+<% unless @users.empty? %>
+	<div>
+	<table class="users">
+	<tr>
+		<th></th><th>Name</th><th>Email</th><th>URL:</th>
+	</tr>
+    <%= render @users %>
+	</table>
+    <%= will_paginate %>
+	</div>
+<%end%>
+    
