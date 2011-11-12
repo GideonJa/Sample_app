@@ -79,7 +79,7 @@ describe UsersController do
   end # describe "GET 'show'" do
 
   describe "POST 'create'" do
-    describe "for users already signed in" do
+    describe "for signed in users" do
       before(:each) do
           @user = Factory(:user)
           test_sign_in(@user)

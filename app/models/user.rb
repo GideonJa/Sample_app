@@ -29,12 +29,14 @@ class User < ActiveRecord::Base
                         :length => {:within => 6..20 }
   before_save :encrypt_password
   
+   scope :admin, where(:admin => true)
+  
   def follow!(followed)
   self.relationships.create!(:followed_id => followed.id)
   end
 
   def unfollow!(followed)
-    self.relationships.find_by_followed_id(followed).destroy
+    relationships.find_by_followed_id(followed).destroy
   end
   
   def following?(followed)
@@ -69,7 +71,8 @@ end
   end
   
   def feed
-    Micropost.where("user_id = ?", self.id)  
+    Micropost.from_followed_by(self)  
+    # Micropost.where("user_id = ?", self.id)  
   end
    
    private
