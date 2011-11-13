@@ -145,6 +145,7 @@ div#follow_form{
 }
 /* User show Micropost */
 table.users{
+	float:left;
 	width:60%;
 }
 div.microposts {
